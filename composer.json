@@ -14,7 +14,7 @@
     "shopware/storefront": "^6.4.0"
   },
   "extra": {
-    "shopware-plugin-class": "gingerpay",
+    "shopware-plugin-class": "GingerPlugin\\gingerpay",
     "label": {
       "de-DE": "Ginger Payments",
       "en-GB": "Ginger Payments"
