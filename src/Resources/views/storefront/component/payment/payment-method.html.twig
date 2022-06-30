@@ -1,0 +1,77 @@
+{% sw_extends '@Storefront/storefront/component/payment/payment-method.html.twig' %}
+
+{% block component_payment_method_field %}
+    {{ parent() }}
+    <style>
+        .custom-ginger-fields {
+            border-left: 3px solid #17a2b8;
+            padding-left: 10px;
+            margin-bottom: 10px;
+        }
+
+        .mini-alert {
+            border-left: 3px solid orange;
+            background-color: lightyellow;
+            padding-left: 10px;
+            margin-bottom: 10px;
+            font-style: oblique;
+            display: none;
+            transition: all 1s ease-out;
+        }
+
+        .ginger_input {
+            border-radius: 10px;
+            border: 2px inset grey;
+        }
+
+        .ginger_input:focus {
+            border: 1px inset #17a2b8;
+        }
+    </style>
+    {% if payment.customFields.payment_name is same as('ginger_ideal') %}
+        {% sw_include '@Storefront/storefront/component/payment/ginger_ideal_form.html.twig' %}
+    {% endif %}
+    {% if payment.customFields.payment_name is same as('ginger_afterpay') %}
+        {% sw_include '@Storefront/storefront/component/payment/ginger_afterpay_form.html.twig' %}
+    {% endif %}
+    {% if payment.customFields.payment_name is same as('ginger_applepay') %}
+        {% sw_include '@Storefront/storefront/component/payment/ginger_applepay_detection.html.twig' %}
+    {% endif %}
+    <script type="text/javascript">
+
+        function set_buttons_disabled_state(state) {
+            let primary_buttons = document.getElementById('confirmPaymentForm').getElementsByClassName("btn-primary");
+            for (let button of primary_buttons) {
+                button.disabled = state;
+            }
+        }
+
+        /**
+         * Basically checks if the payment methods is selected, using as a parameter additional field of the payment method on view.
+         * @param field_name
+         * @returns {boolean}
+         */
+        function isCheckedByField(field_name) {
+            return Boolean(document.getElementById(field_name).parentElement.parentElement.querySelector('input[type=radio]:checked'));
+        }
+
+        /**
+         * Set focus on the item by id
+         */
+        function setFocus(id) {
+            document.getElementById(id).focus({preventScroll: false});
+        }
+
+        /**
+         * Removing all additional forms for payment methods if current page is after return to shop with error or cancel event.
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.getElementById('ginger_issuer_id') == null) {
+                document.getElementById('ideal_custom_form').style.display = 'none';
+            }
+            if (document.getElementById('ginger_afterpay') == null) {
+                document.getElementById('afterpay_custom_form').style.display = 'none';
+            }
+        });
+    </script>
+{% endblock %}

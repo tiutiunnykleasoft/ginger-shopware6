@@ -5,7 +5,7 @@ This is the official Ginger Payments plugin.
 By integrating your webshop with Ginger Payments you can accept payments from your customers in an easy and trusted manner with all relevant payment methods supported.
 
 ## Version number
-Version "place"
+Version 1.6.0
 
 ## Pre-requisites to install the plug-ins: 
 - PHP v7.2 and above

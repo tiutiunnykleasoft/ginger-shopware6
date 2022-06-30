@@ -1,7 +1,7 @@
 {
   "name": "ginger/ginger_payments",
   "description": "Ginger Payments all-in-one plugin",
-  "version": "place",
+  "version": "v1.6.0",
   "type": "shopware-platform-plugin",
   "license": "proprietary",
   "authors": [

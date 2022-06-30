@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="GingerPlugin\Service\FunctionalityGateway"/>
+        <service class="GingerPlugin\Service\OrderBuilder" id="ginger.service.order_builder"/>
+        <service class="GingerPlugin\Service\ClientBuilder" id="ginger.service.client_builder"/>
+        <service id="GingerPlugin\Components\Redefiner">
+            <argument type="service" id="order.repository"/>
+            <argument type="service"
+                      id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <argument type="service" id="Shopware\Core\Framework\Log\LoggerFactory"/>
+            <tag name="shopware.payment.method.async"/>
+        </service>
+        <service id="GingerPlugin\Service\PluginEntryPoint"/>
+        <service id="GingerPlugin\Controller\Webhook" public="true">
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+            <argument type="service"
+                      id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>
+            <argument type="service" id="GingerPlugin\Components\Redefiner"/>
+        </service>
+        <service id="GingerPlugin\Controller\Api\ApiTestController" public="true">
+            <argument type="service" id="GingerPlugin\Components\Redefiner"/>
+        </service>
+        <service class="GingerPlugin\Subscriber\CustomException" id="ginger.subscriber.custom_exception">
+            <argument type="service" id="Shopware\Storefront\Controller\ErrorController"/>
+            <argument type="service" id="Symfony\Component\HttpFoundation\RequestStack"/>
+            <argument type="service" id="Shopware\Core\Framework\Log\LoggerFactory"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+        <service class="GingerPlugin\Subscriber\PaymentsKeeper" id="ginger.subscriber.payments_keeper">
+            <argument type="service" id="GingerPlugin\Components\Redefiner"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+        <service class="GingerPlugin\Subscriber\ReturnUrlExceptions" id="ginger.subscriber.return_url_exceptions">
+            <argument type="service" id="GingerPlugin\Components\Redefiner"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+        <service class="GingerPlugin\Subscriber\PaymentsCustomFields" id="ginger.subscriber.payments_custom_fields">
+            <argument type="service" id="payment_method.repository"/>
+            <argument type="service" id="GingerPlugin\Components\Redefiner"/>
+            <argument type="service" id="Shopware\Core\Framework\Log\LoggerFactory"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+        <service class="GingerPlugin\Subscriber\CaptureOrder" id="ginger.subscriber.capture_order">
+            <argument type="service" id="payment_method.repository"/>
+            <argument type="service" id="order.repository"/>
+            <argument type="service" id="order_delivery.repository"/>
+            <argument type="service" id="GingerPlugin\Components\Redefiner"/>
+            <argument type="service" id="Shopware\Core\Framework\Log\LoggerFactory"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+        <service class="GingerPlugin\Subscriber\RefundOrder" id="ginger.subscriber.refund_order">
+            <argument type="service" id="payment_method.repository"/>
+            <argument type="service" id="order.repository"/>
+            <argument type="service" id="order_transaction.repository"/>
+            <argument type="service" id="GingerPlugin\Components\Redefiner"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+    </services>
+</container>
