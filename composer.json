@@ -1,0 +1,38 @@
+{
+  "name": "ginger/ginger_payments",
+  "description": "Ginger Payments all-in-one plugin",
+  "version": "place",
+  "type": "shopware-platform-plugin",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Ginger Payments"
+    }
+  ],
+  "require": {
+    "shopware/core": "*",
+    "shopware/storefront": "^6.4.0"
+  },
+  "extra": {
+    "shopware-plugin-class": "gingerpay",
+    "label": {
+      "de-DE": "Ginger Payments",
+      "en-GB": "Ginger Payments"
+    },
+    "manufacturerLink": {
+      "de-DE": "https://www.gingerpayments.com/solution/ecommerce-payment-gateway/",
+      "en-GB": "https://www.gingerpayments.com/solution/ecommerce-payment-gateway/"
+    },
+    "description": {
+      "de-DE": "Ginger Payments Zahlungs-Plugin",
+      "en-GB": "Ginger Payments Payment Plugin"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "GingerPlugin\\": "src/",
+      "Ginger\\": "src/vendor/gingerpayments/ginger-php/src",
+      "GingerPluginSdk\\": "src/vendor/gingerplugins/ginger-plugin-sdk/src"
+    }
+  }
+}
